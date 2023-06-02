@@ -1,3 +1,6 @@
+/**
+ *@author Shayan Chaleshi
+ */
 public class FLight
 {
     private String flight_id;

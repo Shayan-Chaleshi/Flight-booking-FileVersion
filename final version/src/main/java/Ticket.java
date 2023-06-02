@@ -1,3 +1,6 @@
+/**
+ *@author Shayan Chaleshi
+ */
 public class Ticket
 {
     private String ticketId;

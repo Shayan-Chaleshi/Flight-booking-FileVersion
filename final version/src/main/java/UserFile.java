@@ -1,9 +1,23 @@
+/**
+ * @author Shayan Chaleshi
+ */
+
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
 
 public class UserFile extends WorkWithFile {
 
+
+    //******************************************** ----> print table header
+    static void table_head_printer() throws IOException, InterruptedException {
+        cls();
+        System.out.print("\n\n\n\n\n\n\t\t");
+        System.out.print("+---------------------------------------------------------------------------------------------+");
+        System.out.printf("\n\t\t| %-1s| %-1s|%-1s| %-1s| %-1s| %-1s| %-1s|", "  Flight ID  ", "   Origins   ", "  Destination  ", "    Data    ", "   Time   ", "   Price   ", " Seats ");
+        System.out.print("\n\t\t");
+        System.out.print("+---------------------------------------------------------------------------------------------+");
+    }
 
     //******************************************** ----> regular user menu
     public void regular_user_menu(RandomAccessFile userFile, RandomAccessFile flightFile, RandomAccessFile ticketFile) throws IOException, InterruptedException {
@@ -57,12 +71,20 @@ public class UserFile extends WorkWithFile {
 
         } catch (Exception var10) {
             error();
-            regular_user_menu(userFile , flightFile ,ticketFile);
+            regular_user_menu(userFile, flightFile, ticketFile);
         }
     }
 
-
     //******************************************** ----> change password
+
+    /**
+     *
+     * @param userFile
+     * @param flightFile
+     * @param ticketFile
+     * @throws IOException
+     * @throws InterruptedException
+     */
     private void change_password(RandomAccessFile userFile, RandomAccessFile flightFile, RandomAccessFile ticketFile) throws IOException, InterruptedException {
         try {
 
@@ -85,7 +107,7 @@ public class UserFile extends WorkWithFile {
                 regular_user_menu(userFile, flightFile, ticketFile);
             }
 
-            if (!password_checker(last_pass, userFile, flightFile, ticketFile)) {
+            if (!password_checker(last_pass, userFile)) {
                 cls();
                 System.out.println("\n\n\n\n\n\n\n\n\n\n");
                 System.out.println("\t\t\t\t+ * * * * * * * * * * * * * * * * * * * * * * +");
@@ -153,10 +175,9 @@ public class UserFile extends WorkWithFile {
 
         } catch (Exception var10) {
             error();
-            change_password(userFile ,flightFile ,ticketFile);
+            change_password(userFile, flightFile, ticketFile);
         }
     }
-
 
     //******************************************** ----> search menu 1
     private void search_flight_menu(RandomAccessFile userFile, RandomAccessFile flightFile, RandomAccessFile ticketFile) throws IOException, InterruptedException {
@@ -186,39 +207,23 @@ public class UserFile extends WorkWithFile {
             System.out.println("\t\t\t\t+ * * * * * * * * * * * * * * * * * * * * * * +\n\n");
             int search_mod = scanner.nextInt();
             switch (search_mod) {
-                case 0:
-                    regular_user_menu(userFile, flightFile, ticketFile);
-                    break;
-                case 1:
-                    filter_by_id(userFile, flightFile, ticketFile);
-                    break;
-                case 2:
-                    filter_by_origin(userFile, flightFile, ticketFile);
-                    break;
-                case 3:
-                    filter_by_dest(userFile, flightFile, ticketFile);
-                    break;
-                case 4:
-                    filter_by_date(userFile, flightFile, ticketFile);
-                    break;
-                case 5:
-                    filter_by_time(userFile, flightFile, ticketFile);
-                    break;
-                case 6:
-                    filter_by_price(userFile, flightFile, ticketFile);
-                    break;
-                case 7:
-                    filter_by_seats(userFile, flightFile, ticketFile);
+                case 0 -> regular_user_menu(userFile, flightFile, ticketFile);
+                case 1 -> filter_by_id(userFile, flightFile, ticketFile);
+                case 2 -> filter_by_origin(userFile, flightFile, ticketFile);
+                case 3 -> filter_by_dest(userFile, flightFile, ticketFile);
+                case 4 -> filter_by_date(userFile, flightFile, ticketFile);
+                case 5 -> filter_by_time(userFile, flightFile, ticketFile);
+                case 6 -> filter_by_price(userFile, flightFile, ticketFile);
+                case 7 -> filter_by_seats(userFile, flightFile, ticketFile);
             }
             search_flight_menu(userFile, flightFile, ticketFile);
 
 
         } catch (Exception var10) {
             error();
-            search_flight_menu(userFile , flightFile ,ticketFile);
+            search_flight_menu(userFile, flightFile, ticketFile);
         }
     }
-
 
     //******************************************** ----> print search box
     void print_search_box() throws IOException, InterruptedException {
@@ -238,19 +243,16 @@ public class UserFile extends WorkWithFile {
         System.out.println("\t\t\t\t+ * * * * * * * * * * * * * * * * * * * * * * * +");
     }
 
-
-    //******************************************** ----> print table header
-    static void table_head_printer() throws IOException, InterruptedException {
-        cls();
-        System.out.print("\n\n\n\n\n\n\t\t");
-        System.out.print("+---------------------------------------------------------------------------------------------+");
-        System.out.printf("\n\t\t| %-1s| %-1s|%-1s| %-1s| %-1s| %-1s| %-1s|", "  Flight ID  ", "   Origins   ", "  Destination  ", "    Data    ", "   Time   ", "   Price   ", " Seats ");
-        System.out.print("\n\t\t");
-        System.out.print("+---------------------------------------------------------------------------------------------+");
-    }
-
-
     //******************************************** ----> filter by id
+
+    /**
+     *
+     * @param userFile
+     * @param flightFile
+     * @param ticketFile
+     * @throws IOException
+     * @throws InterruptedException
+     */
     void filter_by_id(RandomAccessFile userFile, RandomAccessFile flightFile, RandomAccessFile ticketFile) throws IOException, InterruptedException {
         try {
 
@@ -272,7 +274,7 @@ public class UserFile extends WorkWithFile {
                     null_flag = false;
                     System.out.print("\n\t\t");
                     System.out.printf("|    %-10s|    %-10s|    %-11s| %-12s|  %-9s|  %-10s|  %-4s  ", readString(i * FLIGHTLENGHT, flightFile), readString(i * FLIGHTLENGHT + FIXSTRING, flightFile), readString(i * FLIGHTLENGHT + 80, flightFile), readString(i * FLIGHTLENGHT + 120, flightFile), readString(i * FLIGHTLENGHT + 160, flightFile), flightFile.readLong(), flightFile.readInt());
-                    System.out.printf("|");
+                    System.out.print("|");
                     System.out.print("\n\t\t");
                     System.out.print("+---------------------------------------------------------------------------------------------+");
                 }
@@ -288,12 +290,21 @@ public class UserFile extends WorkWithFile {
 
         } catch (Exception var10) {
             error();
-            search_flight_menu(userFile ,flightFile ,ticketFile);
+            search_flight_menu(userFile, flightFile, ticketFile);
         }
     }
 
 
     //******************************************** ----> filter by origin
+
+    /**
+     *
+     * @param userFile
+     * @param flightFile
+     * @param ticketFile
+     * @throws IOException
+     * @throws InterruptedException
+     */
     void filter_by_origin(RandomAccessFile userFile, RandomAccessFile flightFile, RandomAccessFile ticketFile) throws IOException, InterruptedException {
         try {
 
@@ -313,7 +324,7 @@ public class UserFile extends WorkWithFile {
                     null_flag = false;
                     System.out.print("\n\t\t");
                     System.out.printf("|    %-10s|    %-10s|    %-11s| %-12s|  %-9s|  %-10s|  %-4s  ", readString(i * FLIGHTLENGHT, flightFile), readString(i * FLIGHTLENGHT + FIXSTRING, flightFile), readString(i * FLIGHTLENGHT + 80, flightFile), readString(i * FLIGHTLENGHT + 120, flightFile), readString(i * FLIGHTLENGHT + 160, flightFile), flightFile.readLong(), flightFile.readInt());
-                    System.out.printf("|");
+                    System.out.print("|");
                     System.out.print("\n\t\t");
                     System.out.print("+---------------------------------------------------------------------------------------------+");
                 }
@@ -329,13 +340,22 @@ public class UserFile extends WorkWithFile {
 
         } catch (Exception var10) {
             error();
-            search_flight_menu(userFile ,flightFile ,ticketFile);
+            search_flight_menu(userFile, flightFile, ticketFile);
 
         }
     }
 
 
     //******************************************** ----> filter by destination
+
+    /**
+     *
+     * @param userFile
+     * @param flightFile
+     * @param ticketFile
+     * @throws IOException
+     * @throws InterruptedException
+     */
     void filter_by_dest(RandomAccessFile userFile, RandomAccessFile flightFile, RandomAccessFile ticketFile) throws IOException, InterruptedException {
         try {
 
@@ -355,7 +375,7 @@ public class UserFile extends WorkWithFile {
                     null_flag = false;
                     System.out.print("\n\t\t");
                     System.out.printf("|    %-10s|    %-10s|    %-11s| %-12s|  %-9s|  %-10s|  %-4s  ", readString(i * FLIGHTLENGHT, flightFile), readString(i * FLIGHTLENGHT + FIXSTRING, flightFile), readString(i * FLIGHTLENGHT + 80, flightFile), readString(i * FLIGHTLENGHT + 120, flightFile), readString(i * FLIGHTLENGHT + 160, flightFile), flightFile.readLong(), flightFile.readInt());
-                    System.out.printf("|");
+                    System.out.print("|");
                     System.out.print("\n\t\t");
                     System.out.print("+---------------------------------------------------------------------------------------------+");
                 }
@@ -371,13 +391,22 @@ public class UserFile extends WorkWithFile {
 
         } catch (Exception var10) {
             error();
-            search_flight_menu(userFile ,flightFile ,ticketFile);
+            search_flight_menu(userFile, flightFile, ticketFile);
 
         }
     }
 
 
     //******************************************** ----> filter by date
+
+    /**
+     *
+     * @param userFile
+     * @param flightFile
+     * @param ticketFile
+     * @throws IOException
+     * @throws InterruptedException
+     */
     void filter_by_date(RandomAccessFile userFile, RandomAccessFile flightFile, RandomAccessFile ticketFile) throws IOException, InterruptedException {
         try {
 
@@ -397,7 +426,7 @@ public class UserFile extends WorkWithFile {
                     null_flag = false;
                     System.out.print("\n\t\t");
                     System.out.printf("|    %-10s|    %-10s|    %-11s| %-12s|  %-9s|  %-10s|  %-4s  ", readString(i * FLIGHTLENGHT, flightFile), readString(i * FLIGHTLENGHT + FIXSTRING, flightFile), readString(i * FLIGHTLENGHT + 80, flightFile), readString(i * FLIGHTLENGHT + 120, flightFile), readString(i * FLIGHTLENGHT + 160, flightFile), flightFile.readLong(), flightFile.readInt());
-                    System.out.printf("|");
+                    System.out.print("|");
                     System.out.print("\n\t\t");
                     System.out.print("+---------------------------------------------------------------------------------------------+");
                 }
@@ -413,13 +442,22 @@ public class UserFile extends WorkWithFile {
 
         } catch (Exception var10) {
             error();
-            search_flight_menu(userFile ,flightFile ,ticketFile);
+            search_flight_menu(userFile, flightFile, ticketFile);
 
         }
     }
 
 
     //******************************************** ----> filter by time
+
+    /**
+     *
+     * @param userFile
+     * @param flightFile
+     * @param ticketFile
+     * @throws IOException
+     * @throws InterruptedException
+     */
     void filter_by_time(RandomAccessFile userFile, RandomAccessFile flightFile, RandomAccessFile ticketFile) throws IOException, InterruptedException {
         try {
 
@@ -439,7 +477,7 @@ public class UserFile extends WorkWithFile {
                     null_flag = false;
                     System.out.print("\n\t\t");
                     System.out.printf("|    %-10s|    %-10s|    %-11s| %-12s|  %-9s|  %-10s|  %-4s  ", readString(i * FLIGHTLENGHT, flightFile), readString(i * FLIGHTLENGHT + FIXSTRING, flightFile), readString(i * FLIGHTLENGHT + 80, flightFile), readString(i * FLIGHTLENGHT + 120, flightFile), readString(i * FLIGHTLENGHT + 160, flightFile), flightFile.readLong(), flightFile.readInt());
-                    System.out.printf("|");
+                    System.out.print("|");
                     System.out.print("\n\t\t");
                     System.out.print("+---------------------------------------------------------------------------------------------+");
                 }
@@ -454,13 +492,22 @@ public class UserFile extends WorkWithFile {
 
         } catch (Exception var10) {
             error();
-            search_flight_menu(userFile ,flightFile ,ticketFile);
+            search_flight_menu(userFile, flightFile, ticketFile);
 
         }
     }
 
 
     //******************************************** ----> filter by price
+
+    /**
+     *
+     * @param userFile
+     * @param flightFile
+     * @param ticketFile
+     * @throws IOException
+     * @throws InterruptedException
+     */
     void filter_by_price(RandomAccessFile userFile, RandomAccessFile flightFile, RandomAccessFile ticketFile) throws IOException, InterruptedException {
         try {
 
@@ -468,7 +515,7 @@ public class UserFile extends WorkWithFile {
             cls();
             boolean null_flag = true;
             long temp;
-            price_search_box(userFile, flightFile, ticketFile);
+            price_search_box();
 
             System.out.print("\n\t\t\t\tmin ---> ");
             String min = scanner.next();
@@ -477,20 +524,20 @@ public class UserFile extends WorkWithFile {
                 regular_user_menu(userFile, flightFile, ticketFile);
             }
 
-            int min_filter = Integer.valueOf(min);
+            int min_filter = Integer.parseInt(min);
             System.out.print("\t\t\t\tmax ---> ");
             int max = scanner.nextInt();
             table_head_printer();
 
             for (int i = 0; i < Login.flightCounter; ++i) {
-                flightFile.seek(i * FLIGHTLENGHT + 5 * FIXSTRING);
+                flightFile.seek((long) i * FLIGHTLENGHT + 5 * FIXSTRING);
                 temp = flightFile.readLong();
 
                 if (min_filter < temp && max > temp) {
                     null_flag = false;
                     System.out.print("\n\t\t");
                     System.out.printf("|    %-10s|    %-10s|    %-11s| %-12s|  %-9s|  %-10s|  %-4s  ", readString(i * FLIGHTLENGHT, flightFile), readString(i * FLIGHTLENGHT + FIXSTRING, flightFile), readString(i * FLIGHTLENGHT + 80, flightFile), readString(i * FLIGHTLENGHT + 120, flightFile), readString(i * FLIGHTLENGHT + 160, flightFile), flightFile.readLong(), flightFile.readInt());
-                    System.out.printf("|");
+                    System.out.print("|");
                     System.out.print("\n\t\t");
                     System.out.print("+---------------------------------------------------------------------------------------------+");
                 }
@@ -506,14 +553,15 @@ public class UserFile extends WorkWithFile {
 
         } catch (Exception var10) {
             error();
-            search_flight_menu(userFile ,flightFile ,ticketFile);
+            search_flight_menu(userFile, flightFile, ticketFile);
 
         }
     }
 
 
     //******************************************** ----> filter by search box
-    void price_search_box(RandomAccessFile userFile, RandomAccessFile flightFile, RandomAccessFile ticketFile) throws IOException, InterruptedException {
+
+    void price_search_box() throws IOException, InterruptedException {
 
 
         cls();
@@ -536,6 +584,15 @@ public class UserFile extends WorkWithFile {
 
 
     //******************************************** ----> filter by seats
+
+    /**
+     *
+     * @param userFile
+     * @param flightFile
+     * @param ticketFile
+     * @throws IOException
+     * @throws InterruptedException
+     */
     void filter_by_seats(RandomAccessFile userFile, RandomAccessFile flightFile, RandomAccessFile ticketFile) throws IOException, InterruptedException {
 
         try {
@@ -549,16 +606,16 @@ public class UserFile extends WorkWithFile {
                 regular_user_menu(userFile, flightFile, ticketFile);
 
 
-            int filter = Integer.valueOf(filteer);
+            int filter = Integer.parseInt(filteer);
             table_head_printer();
 
             for (int i = 0; i < Login.flightCounter; ++i) {
-                flightFile.seek(i * FLIGHTLENGHT + 5 * FIXSTRING + 8);
+                flightFile.seek((long) i * FLIGHTLENGHT + 5 * FIXSTRING + 8);
                 if (filter < flightFile.readInt()) {
                     null_flag = false;
                     System.out.print("\n\t\t");
                     System.out.printf("|    %-10s|    %-10s|    %-11s| %-12s|  %-9s|  %-10s|  %-4s  ", readString(i * FLIGHTLENGHT, flightFile), readString(i * FLIGHTLENGHT + FIXSTRING, flightFile), readString(i * FLIGHTLENGHT + 80, flightFile), readString(i * FLIGHTLENGHT + 120, flightFile), readString(i * FLIGHTLENGHT + 160, flightFile), flightFile.readLong(), flightFile.readInt());
-                    System.out.printf("|");
+                    System.out.print("|");
                     System.out.print("\n\t\t");
                     System.out.print("+---------------------------------------------------------------------------------------------+");
 
@@ -575,13 +632,22 @@ public class UserFile extends WorkWithFile {
 
         } catch (Exception var10) {
             error();
-            search_flight_menu(userFile ,flightFile ,ticketFile);
+            search_flight_menu(userFile, flightFile, ticketFile);
 
         }
     }
 
 
     //******************************************** ----> booking
+
+    /**
+     *
+     * @param userFile
+     * @param flightFile
+     * @param ticketFile
+     * @throws IOException
+     * @throws InterruptedException
+     */
     private void booking_ticket(RandomAccessFile userFile, RandomAccessFile flightFile, RandomAccessFile ticketFile) throws IOException, InterruptedException {
         try {
             boolean addFlag = false;
@@ -607,7 +673,7 @@ public class UserFile extends WorkWithFile {
             if (flight_id.equals("+"))
                 regular_user_menu(userFile, flightFile, ticketFile);
 
-            flight_id = flight_id.substring(0, 2).toUpperCase() + flight_id.substring(2, flight_id.length());
+            flight_id = flight_id.substring(0, 2).toUpperCase() + flight_id.substring(2);
             int flight_index = flightFile_ins.if_flight_exist(flight_id, flightFile);
 
             // flight existence
@@ -631,7 +697,7 @@ public class UserFile extends WorkWithFile {
             }
 
             // enough seats
-            flightFile.seek(flight_index * FLIGHTLENGHT + 5 * FIXSTRING + 8);
+            flightFile.seek((long) flight_index * FLIGHTLENGHT + 5 * FIXSTRING + 8);
             if (flightFile.readInt() == 0) {
                 cls();
                 System.out.println("\n\n\n\n\n\n\n\n\n\n");
@@ -652,7 +718,7 @@ public class UserFile extends WorkWithFile {
             }
 
             // enough wallet
-            if (is_wallet_enough(flight_index, userFile, flightFile, ticketFile) == false) {
+            if (!is_wallet_enough(flight_index, userFile, flightFile)) {
                 cls();
                 System.out.println("\n\n\n\n\n\n\n\n\n\n");
                 System.out.println("\t\t\t\t+ * * * * * * * * * * * * * * * * * * * * * * +");
@@ -672,7 +738,7 @@ public class UserFile extends WorkWithFile {
             }
 
             //is flight  full
-            if (is_flight_full(flight_index, userFile, flightFile, ticketFile)) {
+            if (is_flight_full(flight_index, flightFile)) {
                 cls();
                 System.out.println("\n\n\n\n\n\n\n\n\n\n");
                 System.out.println("\t\t\t\t+ * * * * * * * * * * * * * * * * * * * * * * +");
@@ -717,7 +783,7 @@ public class UserFile extends WorkWithFile {
 
 
             // change money
-            flightFile.seek(flight_index * FLIGHTLENGHT + 5 * FIXSTRING);
+            flightFile.seek((long) flight_index * FLIGHTLENGHT + 5 * FIXSTRING);
             changeWallet(flightFile.readLong(), false, userFile);
 
 
@@ -730,12 +796,20 @@ public class UserFile extends WorkWithFile {
 
         } catch (Exception var10) {
             error();
-            booking_ticket(userFile , flightFile ,ticketFile);
+            booking_ticket(userFile, flightFile, ticketFile);
         }
     }
 
 
     //******************************************** ----> change wallet
+
+    /**
+     *
+     * @param price
+     * @param mode
+     * @param userFile
+     * @throws IOException
+     */
     private void changeWallet(long price, boolean mode, RandomAccessFile userFile) throws IOException {
 
         userFile.seek((long) Login.logged_in_index * USERLENGHT + 2 * FIXSTRING);
@@ -753,6 +827,14 @@ public class UserFile extends WorkWithFile {
 
 
     //******************************************** ----> change seats
+
+    /**
+     *
+     * @param flightIndex
+     * @param mode
+     * @param flightFile
+     * @throws IOException
+     */
     private void changeSeats(long flightIndex, boolean mode, RandomAccessFile flightFile) throws IOException {
         flightFile.seek(flightIndex * FLIGHTLENGHT + 5 * FIXSTRING + 8);
         int seats = flightFile.readInt();
@@ -766,7 +848,18 @@ public class UserFile extends WorkWithFile {
     }
 
 
+
+
     //******************************************** ----> cancellation
+
+    /**
+     *
+     * @param userFile
+     * @param flightFile
+     * @param ticketFile
+     * @throws IOException
+     * @throws InterruptedException
+     */
     private void ticket_cancellation(RandomAccessFile userFile, RandomAccessFile flightFile, RandomAccessFile ticketFile) throws IOException, InterruptedException {
         try {
 
@@ -841,6 +934,17 @@ public class UserFile extends WorkWithFile {
 
 
     //******************************************** ----> is ticket exist
+
+    /**
+     *
+     * @param ticket_id
+     * @param userFile
+     * @param flightFile
+     * @param ticketFile
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
     private int is_ticket_exist(String ticket_id, RandomAccessFile userFile, RandomAccessFile flightFile, RandomAccessFile ticketFile) throws IOException, InterruptedException {
         try {
 
@@ -852,13 +956,22 @@ public class UserFile extends WorkWithFile {
             }
         } catch (Exception var6) {
             error();
-            ticket_cancellation(userFile ,flightFile ,ticketFile);
+            ticket_cancellation(userFile, flightFile, ticketFile);
         }
         return -1;
     }
 
 
     //******************************************** ----> booked ticket
+
+    /**
+     *
+     * @param userFile
+     * @param flightFile
+     * @param ticketFile
+     * @throws IOException
+     * @throws InterruptedException
+     */
     private void booked_ticket(RandomAccessFile userFile, RandomAccessFile flightFile, RandomAccessFile ticketFile) throws IOException, InterruptedException {
         try {
             boolean searchFlag = false;
@@ -882,7 +995,7 @@ public class UserFile extends WorkWithFile {
                         searchFlag = true;
                         int flightIndex = flightFile1.if_flight_exist(readString(i * TICKETLENGHT + FIXSTRING, ticketFile), flightFile);
                         System.out.printf("\t\t|    %-6s    |    %-10s|    %-10s|    %-11s|  %-11s|    %-7s|   %-9s|   %-3s  ", readString(i * TICKETLENGHT, ticketFile), readString(flightIndex * FLIGHTLENGHT, flightFile), readString(flightIndex * FLIGHTLENGHT + FIXSTRING, flightFile), readString(flightIndex * FLIGHTLENGHT + 2 * FIXSTRING, flightFile), readString(flightIndex * FLIGHTLENGHT + 3 * FIXSTRING, flightFile), readString(flightIndex * FLIGHTLENGHT + 4 * FIXSTRING, flightFile), flightFile.readLong(), flightFile.readInt());
-                        System.out.printf("|");
+                        System.out.print("|");
                         System.out.print("\n\t\t");
                         System.out.print("+------------------------------------------------------------------------------------------------------------+\n");
                     }
@@ -899,18 +1012,27 @@ public class UserFile extends WorkWithFile {
             regular_user_menu(userFile, flightFile, ticketFile);
         } catch (Exception var10) {
             error();
-            regular_user_menu(userFile ,flightFile ,ticketFile);
+            regular_user_menu(userFile, flightFile, ticketFile);
         }
     }
 
 
     //******************************************** ----> add charge
+
+    /**
+     *
+     * @param userFile
+     * @param flightFile
+     * @param ticketFile
+     * @throws IOException
+     * @throws InterruptedException
+     */
     private void add_charge(RandomAccessFile userFile, RandomAccessFile flightFile, RandomAccessFile ticketFile) throws IOException, InterruptedException {
 
         try {
 
             cls();
-            userFile.seek((Login.logged_in_index * USERLENGHT + 2 * FIXSTRING));
+            userFile.seek(((long) Login.logged_in_index * USERLENGHT + 2 * FIXSTRING));
             System.out.println("\n\n\n\n\n\n\n\n\n\n");
             System.out.println("\t\t\t\t+ * * * * * * * * * * * * * * * * * * * * * * +");
             System.out.println("\t\t\t\t*:::::::::::::::::::::::::::::::::::::::::::: *");
@@ -944,9 +1066,9 @@ public class UserFile extends WorkWithFile {
                 regular_user_menu(userFile, flightFile, ticketFile);
             }
 
-            long amount = Long.valueOf(input);
+            long amount = Long.parseLong(input);
             changeWallet(amount, true, userFile);
-            userFile.seek((long) (Login.logged_in_index * USERLENGHT + 80));
+            userFile.seek((long) Login.logged_in_index * USERLENGHT + 80);
             cls();
             System.out.println("\n\n\n\n\n\n\n\n\n\n");
             System.out.println("\t\t\t\t*:::::::::::::::::::::::::::::::::::::::::::: *");
@@ -964,23 +1086,32 @@ public class UserFile extends WorkWithFile {
             regular_user_menu(userFile, flightFile, ticketFile);
         } catch (Exception var10) {
             error();
-            regular_user_menu(userFile ,flightFile ,ticketFile);
+            regular_user_menu(userFile, flightFile, ticketFile);
         }
     }
 
 
     //******************************************** ----> is flight full
-    private boolean is_flight_full(int flight_index, RandomAccessFile userFile, RandomAccessFile flightFile, RandomAccessFile ticketFile) throws IOException, InterruptedException {
+
+    /**
+     *
+     * @param flight_index
+     * @param flightFile
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    private boolean is_flight_full(int flight_index, RandomAccessFile flightFile) throws IOException, InterruptedException {
         try {
 
 
-            flightFile.seek((long) (flight_index * FLIGHTLENGHT + 5 * FIXSTRING + 8));
+            flightFile.seek((long) flight_index * FLIGHTLENGHT + 5 * FIXSTRING + 8);
             if (flightFile.readInt() != 0)
                 return false;
 
         } catch (Exception var6) {
             error();
-            is_flight_full(flight_index, userFile, flightFile, ticketFile);
+            is_flight_full(flight_index, flightFile);
 
 
         }
@@ -989,10 +1120,18 @@ public class UserFile extends WorkWithFile {
     }
 
 
-
-
     //******************************************** ----> is wallet enough
-    private boolean is_wallet_enough(int flight_index, RandomAccessFile userFile, RandomAccessFile flightFile, RandomAccessFile ticketFile) throws IOException, InterruptedException {
+
+    /**
+     *
+     * @param flight_index
+     * @param userFile
+     * @param flightFile
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    private boolean is_wallet_enough(int flight_index, RandomAccessFile userFile, RandomAccessFile flightFile) throws IOException, InterruptedException {
         try {
 
 
@@ -1004,18 +1143,24 @@ public class UserFile extends WorkWithFile {
             if (wallet >= price)
                 return true;
 
-        } catch (Exception var6)
-        {
+        } catch (Exception var6) {
             error();
-            is_wallet_enough(flight_index, userFile, flightFile, ticketFile);
+            is_wallet_enough(flight_index, userFile, flightFile);
         }
         return false;
     }
 
 
-
     //******************************************** ----> is user exist
-    public int user_existence_checker(String username, RandomAccessFile userFile, RandomAccessFile flightFile, RandomAccessFile ticketFile) throws IOException, InterruptedException {
+
+    /**
+     *
+     * @param username
+     * @param userFile
+     * @return
+     * @throws IOException
+     */
+    public int user_existence_checker(String username, RandomAccessFile userFile) throws IOException {
 
 
         for (int i = 0; (long) i < Login.userCounter; ++i) {
@@ -1029,33 +1174,31 @@ public class UserFile extends WorkWithFile {
         return -1;
 
     }
+
     /**
      * Override
      */
-    public boolean user_existence_checker(String username, String password, RandomAccessFile userFile, RandomAccessFile flightFile, RandomAccessFile ticketFile) throws IOException, InterruptedException {
+    public boolean user_existence_checker(String username, String password, RandomAccessFile userFile) throws IOException {
 
-            int index = user_existence_checker(username, userFile, flightFile, ticketFile);
-            String pass = readString(index * USERLENGHT + FIXSTRING, userFile);
-            if (index != -1 && password.equals(pass))
-                return true;
-
-
-
-        return false;
+        int index = user_existence_checker(username, userFile);
+        String pass = readString(index * USERLENGHT + FIXSTRING, userFile);
+        return index != -1 && password.equals(pass);
     }
 
 
     //******************************************** ----> password checker
-    public boolean password_checker(String last_pass, RandomAccessFile userFile, RandomAccessFile flightFile, RandomAccessFile ticketFile) throws IOException, InterruptedException {
+
+    /**
+     *
+     * @param last_pass
+     * @param userFile
+     * @return
+     * @throws IOException
+     */
+    public boolean password_checker(String last_pass, RandomAccessFile userFile) throws IOException {
 
 
-
-            if (last_pass.equals(readString(Login.logged_in_index * USERLENGHT + FIXSTRING, userFile))) {
-                return true;
-            }
-
-
-        return false;
+        return last_pass.equals(readString(Login.logged_in_index * USERLENGHT + FIXSTRING, userFile));
     }
 
 }

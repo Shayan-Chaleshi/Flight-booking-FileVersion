@@ -1,83 +1,77 @@
+/**
+ * @author Shayan Chaleshi
+ */
+
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Scanner;
 
-public class WorkWithFile
-{
+public class WorkWithFile {
 
-    Scanner scanner = new Scanner(System.in) ;
-    final int FIXSTRING =    40   ;
-    final int USERLENGHT =   88   ;
-    final int FLIGHTLENGHT = 212  ;
-    final int TICKETLENGHT = 120  ;
+    final int FIXSTRING = 40;
+    final int USERLENGHT = 88;
+    final int FLIGHTLENGHT = 212;
+    final int TICKETLENGHT = 120;
+    Scanner scanner = new Scanner(System.in);
     String removed = "Removed!";
 
 //******************************************** ----> Read String
 
-    public String readString( int startPoint , RandomAccessFile rFile ) throws IOException
-    {
-
-        String str = "";
-        rFile.seek(startPoint);
-
-        for (int i = 0 ; i < 20 ; i++)
-        {
-            str+=rFile.readChar();
-        }
-
-        return str.trim();
-
+    //******************************************** ---->  clear screen
+    public static void cls() throws IOException, InterruptedException {
+        new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
     }
 
 //******************************************** ----> Write String
 
-    public void writeString(long startPoint , String str , RandomAccessFile rFile ) throws IOException
-    {
+    public String readString(int startPoint, RandomAccessFile rFile) throws IOException {
 
-        str= fixString(str) ;
+        StringBuilder str = new StringBuilder();
+        rFile.seek(startPoint);
+
+        for (int i = 0; i < 20; i++) {
+            str.append(rFile.readChar());
+        }
+
+        return str.toString().trim();
+
+    }
+//******************************************** ----> Fix String
+
+    public void writeString(long startPoint, String str, RandomAccessFile rFile) throws IOException {
+
+        str = fixString(str);
 
         rFile.seek(startPoint);
 
         rFile.writeChars(str);
 
     }
-//******************************************** ----> Fix String
 
-    public String fixString(String str)
-    {
-        while (str.length() <= 21 )
-        {
-            str+=" ";
+    public String fixString(String str) {
+        StringBuilder strBuilder = new StringBuilder(str);
+        while (strBuilder.length() <= 21) {
+            strBuilder.append(" ");
         }
-        return str.substring( 0 , 20 );
+        str = strBuilder.toString();
+        return str.substring(0, 20);
 
-    }
-
-
-    //******************************************** ---->  clear screen
-    public static void cls() throws IOException, InterruptedException
-    {
-        new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
     }
 
     //******************************************** ---->  first empty
 
-    public int firstEmpty(RandomAccessFile rFile , long size , int length) throws IOException
-    {
-        for (int i = 0; i < size; i++)
-        {
-            if (readString( (i*length) , rFile).equals(removed))
-            {
+    public int firstEmpty(RandomAccessFile rFile, long size, int length) throws IOException {
+        for (int i = 0; i < size; i++) {
+            if (readString((i * length), rFile).equals(removed)) {
                 return i;
             }
         }
-        return -1 ;
+        return -1;
     }
 
     //******************************************** ---->  Print done
 
-    void print_done() throws IOException, InterruptedException
-    {
+    void print_done() throws IOException, InterruptedException {
         cls();
         System.out.println("\n\n\n\n\n\n\n\n\n\n");
         System.out.println("\t\t\t\t*:::::::::::::::::::::::::::::::::::::::::::: *");
@@ -97,24 +91,23 @@ public class WorkWithFile
 
 
     //******************************************** ---->  invalid print
-     public void error() throws IOException, InterruptedException
-     {
-         cls();
-         System.out.println("\n\n\n\n\n\n\n\n\n\n");
-         System.out.println("\t\t\t\t+ * * * * * * * * * * * * * * * * * * * * * * +");
-         System.out.println("\t\t\t\t*:::::::::::::::::::::::::::::::::::::::::::: *");
-         System.out.println("\t\t\t\t*:::::::::::::::::   Error  ::::::::::::::::: *");
-         System.out.println("\t\t\t\t*                                             *");
-         System.out.println("\t\t\t\t*                                             *");
-         System.out.println("\t\t\t\t*              Invalid input !                *");
-         System.out.println("\t\t\t\t*                                             *");
-         System.out.println("\t\t\t\t*                                             *");
-         System.out.println("\t\t\t\t*           press any key to return...        *");
-         System.out.println("\t\t\t\t*:::::::::::::::::::::::::::::::::::::::::::: *");
-         System.out.println("\t\t\t\t+ * * * * * * * * * * * * * * * * * * * * * * +");
-            scanner.nextLine();
-            scanner.nextLine();
-     }
+    public void error() throws IOException, InterruptedException {
+        cls();
+        System.out.println("\n\n\n\n\n\n\n\n\n\n");
+        System.out.println("\t\t\t\t+ * * * * * * * * * * * * * * * * * * * * * * +");
+        System.out.println("\t\t\t\t*:::::::::::::::::::::::::::::::::::::::::::: *");
+        System.out.println("\t\t\t\t*:::::::::::::::::   Error  ::::::::::::::::: *");
+        System.out.println("\t\t\t\t*                                             *");
+        System.out.println("\t\t\t\t*                                             *");
+        System.out.println("\t\t\t\t*              Invalid input !                *");
+        System.out.println("\t\t\t\t*                                             *");
+        System.out.println("\t\t\t\t*                                             *");
+        System.out.println("\t\t\t\t*           press any key to return...        *");
+        System.out.println("\t\t\t\t*:::::::::::::::::::::::::::::::::::::::::::: *");
+        System.out.println("\t\t\t\t+ * * * * * * * * * * * * * * * * * * * * * * +");
+        scanner.nextLine();
+        scanner.nextLine();
+    }
     //******************************************** ---->  test print
 //    public void test(RandomAccessFile userFile , RandomAccessFile flightFile , RandomAccessFile ticketFile) throws IOException
 //    {
